@@ -62,12 +62,14 @@ def check_move(vx: float, vy: float, wz_deg: float, duration: float, limits: Mov
     # ====================================
     if abs(vx) > limits.vx_max or abs(vy) > limits.vy_max or abs(wz_deg) > limits.wz_max: 
         return f"too fast: limits are |vx|<={limits.vx_max} m/s, |vy|<={limits.vy_max}, |wz_deg|<={limits.wz_max}"
-    if abs(vx) < MoveLimits.vx_min and abs(vy) < MoveLimits.vy_min and abs(wz_deg) < MoveLimits.wz_min: 
-        return f"too slow to move at all: vx, vy, AND wz_deg are ALL below their minimums ({MoveLimits.vx_min}, {MoveLimits.vy_min}, {MoveLimits.wz_min})"
+    if abs(vx) < limits.vx_min and abs(vy) < limits.vy_min and abs(wz_deg) < limits.wz_min:
+        return f"too slow to move at all: vx, vy, AND wz_deg are ALL below their minimums ({limits.vx_min}, {limits.vy_min}, {limits.wz_min})"
     if duration <= 0: 
         return f"duration must be more than zero"
     if duration > limits.duration_max: 
         return f"duration must be less than {limits.duration_max}"
+
+    
 
     speed = (vx ** 2 + vy ** 2) ** 0.5
     if speed * duration > limits.distance_max: 
